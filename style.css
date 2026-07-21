@@ -985,25 +985,45 @@ body.light-mode .sun-icon { opacity: 1; transform: rotate(0deg); }
 .btt-fill { fill: none; stroke: var(--cyan); stroke-width: 2; stroke-dasharray: 125.66; stroke-dashoffset: 125.66; transition: stroke-dashoffset 0.1s; }
 
 @media (max-width: 1024px) {
+  #smooth-wrapper {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+  #smooth-content {
+    transform: none !important;
+    will-change: auto;
+  }
+
   .hero-inner { flex-direction: column-reverse; text-align: center; gap: 2rem; margin-top: 2rem; }
   .hero-actions { justify-content: center; }
   .hero-floating-tags { display: none; }
-  .hero-visual { width: 280px; height: 280px; margin: 0 auto; }
-  .title-line { font-size: clamp(2.5rem, 10vw, 4rem); }
-  
+  .hero-visual { width: 250px; height: 250px; margin: 0 auto; }
+  .hero-content { max-width: 100%; }
+  .title-line { font-size: clamp(2.2rem, 10vw, 4rem); }
+  .hero-desc { max-width: 100%; text-align: center; margin-left: auto; margin-right: auto; }
+
   .about-grid { grid-template-columns: 1fr; }
+  .about-heading { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+
   .stats-grid { grid-template-columns: 1fr 1fr; }
-  .project-showcase, .project-showcase.reverse { flex-direction: column; padding: 2rem; gap: 2rem; }
+
+  .project-showcase, .project-showcase.reverse { flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
   .project-number { display: none; }
-  
-  .timeline-line { left: 0; }
-  .tl-dot { left: 0; transform: translateX(-50%); }
-  .tl-card { width: calc(100% - 30px); margin-left: 30px; }
+  .project-media { width: 100%; flex: none; }
+  .project-details { width: 100%; flex: none; }
+  .project-name { font-size: 1.4rem; }
+  .projects-heading { font-size: clamp(1.5rem, 5vw, 2.5rem); margin-bottom: 2rem; }
+
+  .timeline-line { left: 20px; }
+  .tl-dot { left: 20px; transform: translateX(-50%); }
+  .tl-card { width: calc(100% - 50px); margin-left: 50px; }
   .tl-item { flex-direction: row; }
   .tl-left, .tl-right { justify-content: flex-end; }
-  
-  .contact-grid { grid-template-columns: 1fr; }
-  
+
+  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-form { padding: 2rem; }
+
   .nav-menu {
     position: fixed;
     top: 0;
@@ -1017,10 +1037,78 @@ body.light-mode .sun-icon { opacity: 1; transform: rotate(0deg); }
     align-items: center;
     transition: 0.5s var(--ease-out);
     border-left: 1px solid var(--border-subtle);
+    z-index: 1000;
   }
   .nav-menu.active { right: 0; }
   .hamburger { display: flex; z-index: 1001; }
   .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  section { padding: 80px 0; }
+  .experience-heading { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+  .contact-heading { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+}
+
+@media (max-width: 480px) {
+  .container { width: 92%; }
+
+  .hero { padding-top: 80px; min-height: auto; padding-bottom: 60px; }
+  .hero-visual { width: 200px; height: 200px; }
+  .profile-frame { width: 200px; }
+  .title-line { font-size: clamp(2rem, 12vw, 3rem); letter-spacing: -1px; }
+  .hero-typing { font-size: 1rem; flex-wrap: wrap; justify-content: center; }
+  .hero-desc { font-size: 0.85rem; }
+  .hero-actions { flex-direction: column; align-items: center; gap: 0.8rem; }
+  .btn { padding: 0.8rem 1.6rem; font-size: 0.9rem; width: 100%; justify-content: center; }
+
+  .scroll-cue { display: none; }
+
+  .marquee-track span { font-size: 0.75rem; letter-spacing: 2px; }
+
+  section { padding: 60px 0; }
+  .about-heading { font-size: 1.4rem; }
+  .about-card { padding: 1.5rem; border-radius: 16px; }
+  .about-card h3 { font-size: 0.95rem; }
+  .about-card p { font-size: 0.85rem; }
+  .skills-title { font-size: 1rem; }
+  .skill-info { font-size: 0.8rem; }
+
+  .cert-badge { padding: 1rem; gap: 1rem; border-radius: 14px; }
+  .cert-badge i { font-size: 1.8rem; }
+  .cert-badge strong { font-size: 0.9rem; }
+  .cert-badge span { font-size: 0.8rem; }
+
+  .stats-grid { gap: 1rem; }
+  .stat-number { font-size: 2rem; }
+  .stat-label { font-size: 0.75rem; }
+
+  .project-showcase, .project-showcase.reverse { padding: 1rem; gap: 1rem; border-radius: 16px; }
+  .project-name { font-size: 1.2rem; }
+  .project-desc { font-size: 0.85rem; }
+  .project-category { font-size: 0.75rem; }
+  .project-tags span { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+  .gal-btn { width: 32px; height: 32px; }
+
+  .timeline-line { left: 15px; }
+  .tl-dot { left: 15px; width: 32px; height: 32px; font-size: 0.75rem; }
+  .tl-card { width: calc(100% - 42px); margin-left: 42px; padding: 1.2rem; border-radius: 16px; }
+  .tl-card h3 { font-size: 1rem; }
+  .tl-sub { font-size: 0.8rem; }
+  .tl-desc { font-size: 0.8rem; }
+  .tl-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
+
+  .contact-intro { font-size: 0.95rem; }
+  .contact-form { padding: 1.5rem; border-radius: 16px; }
+  .input-group input, .input-group textarea { font-size: 0.9rem; padding: 0.85rem 1rem; }
+  .socials { justify-content: center; }
+  .social-btn { width: 44px; height: 44px; font-size: 1rem; }
+
+  .footer-inner { flex-direction: column; gap: 1rem; text-align: center; font-size: 0.8rem; }
+
+  .nav-inner { padding: 1rem 5%; }
+  .logo { font-size: 1.3rem; }
+  .status-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+
+  .back-to-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
 }
