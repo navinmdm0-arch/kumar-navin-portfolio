@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Navin Kumar - BSITWMA Student, Web Developer, Content Creator. Portfolio showcasing projects, skills, and achievements.">
+    <meta name="author" content="Navin Kumar">
+    <title>Navin Kumar | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (localStorage.getItem('portfolio-theme') === 'light') {
+            document.documentElement.style.colorScheme = 'light';
+            document.addEventListener('DOMContentLoaded', () => document.body.classList.add('light-mode'));
+        }
+    </script>
+</head>
+<body>
+
+    <div id="preloader" aria-hidden="true">
+        <div class="preloader-inner">
+            <div class="preloader-logo">N<span>K</span></div>
+            <div class="preloader-bar">
+                <div class="preloader-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <div class="bg-blobs" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#home" class="logo">
+                N<span class="logo-accent">K</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span>Available</span>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+                    <div class="toggle-track">
+                        <div class="toggle-stars">
+                            <span class="star star-1"></span>
+                            <span class="star star-2"></span>
+                            <span class="star star-3"></span>
+                        </div>
+                        <div class="toggle-thumb">
+                            <div class="thumb-icon sun-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="thumb-icon moon-icon">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main>
+    <section id="home" class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge reveal">
+                    <span class="badge-dot"></span>
+                    Hello, I'm
+                </div>
+                <h1 class="hero-title reveal">
+                    <span class="title-line split-text">Navin</span>
+                    <span class="title-line title-outline split-text">Kumar</span>
+                </h1>
+                <div class="hero-typing reveal">
+                    <span class="typing-arrow">→</span>
+                    <span id="typed-text"></span>
+                    <span class="typing-cursor">|</span>
+                </div>
+                <p class="hero-desc reveal">
+                    I am currently in section TW04, pursuing a Bachelor of Science in Information Technology 
+                    specializing in Web and Mobile Applications (BSITWMA) at FEU Institute of Technology. 
+                    I enjoy the simple things in life, like sharing a laugh with friends, exploring great food, 
+                    and discovering new facts about the world.
+                </p>
+                <div class="hero-actions reveal">
+                    <a href="#projects" class="btn btn-fill magnetic-wrap" id="view-work-btn">
+                        <span>View My Work</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn btn-ghost magnetic-wrap" id="contact-btn">
+                        <span>Contact Me</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+            <div class="supernova-orb"></div>
+            <div class="profile-frame magnetic-wrap">
+                    <div class="frame-accent-shape"></div>
+                    <div class="frame-img-wrap">
+                        <img src="images/profile.jpg" alt="Navin Kumar - Web Developer & BSITWMA Student" class="profile-img" id="profile-img">
+                    </div>
+                    <div class="frame-label">
+                        <span>BSITWMA</span>
+                        <span>FEU Tech</span>
+                    </div>
+                </div>
+                <div class="hero-floating-tags">
+                    <span class="ftag ftag-1">Web Dev 🌐</span>
+                    <span class="ftag ftag-2">Creator 🎬</span>
+                    <span class="ftag ftag-3">Gamer 🎮</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-cue" aria-label="Scroll down">
+            <span>SCROLL</span>
+            <div class="scroll-line-track">
+                <div class="scroll-line-fill"></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-band" aria-hidden="true">
+        <div class="marquee-track">
+            <span>WEB DEVELOPER ✦ CONTENT CREATOR ✦ GAMER ✦ ATHLETE ✦ BSITWMA STUDENT ✦ FEU TECH ✦ IT SPECIALIST ✦&nbsp;</span>
+            <span>WEB DEVELOPER ✦ CONTENT CREATOR ✦ GAMER ✦ ATHLETE ✦ BSITWMA STUDENT ✦ FEU TECH ✦ IT SPECIALIST ✦&nbsp;</span>
+        </div>
+    </div>
+
+    <section id="about" class="section-about">
+        <div class="container">
+            <div class="section-label reveal">
+                <span class="label-line"></span>
+                <span class="label-text">01 / About Me</span>
+            </div>
+            <div class="about-grid">
+                <div class="about-left">
+                    <h2 class="about-heading reveal">
+                        I build things for<br>
+                        the <span class="text-highlight">web</span> &amp; beyond.
+                    </h2>
+                    <div class="about-cards">
+                        <div class="about-card reveal" style="--delay: 0.1s">
+                            <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                            <h3>Background &amp; Interests</h3>
+                            <p>Beyond academics, I have a strong passion for sports and competition. I am a former badminton gold medalist, have earned numerous achievements in intramural basketball, and recently secured second place in an amateur fighting tournament.</p>
+                        </div>
+                        <div class="about-card reveal" style="--delay: 0.2s">
+                            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                            <h3>Professional Goals</h3>
+                            <p>Professionally, my goal is to become a top-tier IT Specialist and acquire multiple industry certifications. I am proud to have already earned my first certification as an IT Specialist in HTML and CSS.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-right reveal">
+                    <h3 class="skills-title">Core Technologies</h3>
+                    <div class="skills-list">
+                        <div class="skill-row" style="--delay: 0.1s">
+                            <div class="skill-info">
+                                <i class="fab fa-html5" style="color: #e34f26"></i>
+                                <span>HTML5</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+                        </div>
+                        <div class="skill-row" style="--delay: 0.2s">
+                            <div class="skill-info">
+                                <i class="fab fa-css3-alt" style="color: #1572b6"></i>
+                                <span>CSS3</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                        </div>
+                        <div class="skill-row" style="--delay: 0.3s">
+                            <div class="skill-info">
+                                <i class="fab fa-js-square" style="color: #f7df1e"></i>
+                                <span>JavaScript</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+                        </div>
+                        <div class="skill-row" style="--delay: 0.4s">
+                            <div class="skill-info">
+                                <i class="fab fa-php" style="color: #777bb4"></i>
+                                <span>PHP</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+                        </div>
+                        <div class="skill-row" style="--delay: 0.5s">
+                            <div class="skill-info">
+                                <i class="fab fa-react" style="color: #61dafb"></i>
+                                <span>React</span>
+                            </div>
+                            <div class="skill-bar"><div class="skill-fill" data-width="60"></div></div>
+                        </div>
+                    </div>
+                    <div class="cert-badge">
+                        <i class="fas fa-certificate"></i>
+                        <div>
+                            <strong>Certified IT Specialist</strong>
+                            <span>HTML &amp; CSS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-band">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal" style="--delay: 0s">
+                    <span class="stat-number counter" data-target="1000">0</span>
+                    <span class="stat-plus">+</span>
+                    <span class="stat-label">Conversions</span>
+                </div>
+                <div class="stat-item reveal" style="--delay: 0.1s">
+                    <span class="stat-number counter" data-target="3">0</span>
+                    <span class="stat-plus"></span>
+                    <span class="stat-label">Projects Built</span>
+                </div>
+                <div class="stat-item reveal" style="--delay: 0.2s">
+                    <span class="stat-number counter" data-target="1">0</span>
+                    <span class="stat-plus"></span>
+                    <span class="stat-label">Certification</span>
+                </div>
+                <div class="stat-item reveal" style="--delay: 0.3s">
+                    <span class="stat-number counter" data-target="5">0</span>
+                    <span class="stat-plus">+</span>
+                    <span class="stat-label">Technologies</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="projects" class="section-projects">
+        <div class="container">
+            <div class="section-label reveal">
+                <span class="label-line"></span>
+                <span class="label-text">02 / My Projects</span>
+            </div>
+            <h2 class="projects-heading reveal">
+                Selected <span class="text-highlight">Works</span>
+            </h2>
+            <div class="project-showcase reveal" id="project-ark">
+                <div class="project-number">01</div>
+                <div class="project-media">
+                    <div class="gallery-wrap">
+                        <div class="gallery-slider">
+                            <img src="images/ark13.png" alt="Ark Survival: Main Menu" class="gallery-img active">
+                            <img src="images/ark11.png" alt="Ark Survival: Gameplay" class="gallery-img">
+                            <img src="images/ark12.png" alt="Ark Survival: Death Screen" class="gallery-img">
+                        </div>
+                        <button class="gal-btn gal-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                        <button class="gal-btn gal-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="gallery-indicators">
+                        <button class="gal-dot active" aria-label="Image 1"></button>
+                        <button class="gal-dot" aria-label="Image 2"></button>
+                        <button class="gal-dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <span class="project-category">Game Development</span>
+                    <h3 class="project-name">Ark Survival: Primal Frontier</h3>
+                    <p class="project-desc">A low-poly, voxel-based dinosaur survival game. I implemented a clean, neon UI layout for survival stats (health, stamina, hunger, water) and a custom main menu. Players spawn with nothing and have to survive against hostile mobs like the towering T-Rex.</p>
+                    <div class="project-tags">
+                        <span>Game Design</span>
+                        <span>UI/UX</span>
+                        <span>Voxel Art</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-showcase reverse reveal" id="project-bato">
+                <div class="project-number">02</div>
+                <div class="project-media">
+                    <div class="gallery-wrap">
+                        <div class="gallery-slider">
+                            <img src="images/bato1.png" alt="Senateflix Comics - Page 1" class="gallery-img active">
+                            <img src="images/bato3.png" alt="Senateflix Comics - Page 6" class="gallery-img">
+                            <img src="images/bato2.png" alt="Senateflix Comics - Page 9" class="gallery-img">
+                        </div>
+                        <button class="gal-btn gal-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                        <button class="gal-btn gal-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="gallery-indicators">
+                        <button class="gal-dot active" aria-label="Image 1"></button>
+                        <button class="gal-dot" aria-label="Image 2"></button>
+                        <button class="gal-dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <span class="project-category">Digital Comics App</span>
+                    <h3 class="project-name">Ang Takas ni Bato</h3>
+                    <p class="project-sub">(Senateflix Comics)</p>
+                    <p class="project-desc">An interactive digital comic book application featuring a custom viewer UI. The project includes page navigation functionality, chapter selection, and a sleek dark aesthetic to enhance the intense escape storyline.</p>
+                    <div class="project-tags">
+                        <span>Web App</span>
+                        <span>Comics</span>
+                        <span>Interactive</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-showcase reveal" id="project-nstp">
+                <div class="project-number">03</div>
+                <div class="project-media">
+                    <div class="gallery-wrap">
+                        <div class="gallery-slider">
+                            <img src="images/nstp1.png" alt="NSTP Portfolio - Homepage" class="gallery-img active">
+                            <img src="images/nstp2.png" alt="NSTP Portfolio - Content" class="gallery-img">
+                            <img src="images/nstp3.png" alt="NSTP Portfolio - Gallery" class="gallery-img">
+                        </div>
+                        <button class="gal-btn gal-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                        <button class="gal-btn gal-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="gallery-indicators">
+                        <button class="gal-dot active" aria-label="Image 1"></button>
+                        <button class="gal-dot" aria-label="Image 2"></button>
+                        <button class="gal-dot" aria-label="Image 3"></button>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <span class="project-category">Web Development</span>
+                    <h3 class="project-name">NSTP Portfolio Web</h3>
+                    <p class="project-desc">A digital portfolio website I built for my NSTP 2 class to document our community service and immersion. I gave it a fun, scrapbook-style design. The main technical feature is a working export button that lets users instantly download the entire website as a PDF or PPT file.</p>
+                    <div class="project-tags">
+                        <span>HTML/CSS</span>
+                        <span>JavaScript</span>
+                        <span>Export</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-band marquee-reverse" aria-hidden="true">
+        <div class="marquee-track">
+            <span>HTML ✦ CSS ✦ JAVASCRIPT ✦ PHP ✦ REACT ✦ FIGMA ✦ PHOTOSHOP ✦ VIDEO EDITING ✦&nbsp;</span>
+            <span>HTML ✦ CSS ✦ JAVASCRIPT ✦ PHP ✦ REACT ✦ FIGMA ✦ PHOTOSHOP ✦ VIDEO EDITING ✦&nbsp;</span>
+        </div>
+    </div>
+
+    <section id="experience" class="section-experience">
+        <div class="container">
+            <div class="section-label reveal">
+                <span class="label-line"></span>
+                <span class="label-text">03 / My Journey</span>
+            </div>
+            <h2 class="experience-heading reveal">
+                Experience &amp; <span class="text-highlight">Education</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="tl-item tl-left reveal" id="exp-freelance">
+                    <div class="tl-dot"><i class="fas fa-video"></i></div>
+                    <div class="tl-card">
+                        <span class="tl-tag tl-tag-exp">Experience</span>
+                        <h3>Freelance Video Editor &amp; Affiliate Marketer</h3>
+                        <p class="tl-sub">Content Creation &amp; Sales</p>
+                        <p class="tl-desc">Generated over 1,000+ successful conversions through strategic affiliate marketing. Specialized in digital clipping campaigns for international entertainment niches, editing high-performing, transformative short-form video content tailored for social media monetization.</p>
+                    </div>
+                </div>
+                <div class="tl-item tl-right reveal" id="exp-trainee">
+                    <div class="tl-dot"><i class="fas fa-laptop-code"></i></div>
+                    <div class="tl-card">
+                        <span class="tl-tag tl-tag-exp">Experience</span>
+                        <h3>IT Department Trainee</h3>
+                        <p class="tl-sub">Grade 12 Immersion Program</p>
+                        <p class="tl-desc">Gained hands-on foundational experience in IT operations, technical troubleshooting, and system workflows during an intensive senior high school immersion program.</p>
+                    </div>
+                </div>
+                <div class="tl-item tl-left reveal" id="edu-bsit">
+                    <div class="tl-dot"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="tl-card">
+                        <span class="tl-tag tl-tag-edu">Education</span>
+                        <h3>Bachelor of Science in Information Technology</h3>
+                        <p class="tl-sub">FEU Institute of Technology | Present</p>
+                        <p class="tl-desc">Specializing in Web and Mobile Applications (BSITWMA). Currently expanding expertise in modern web frameworks, UI/UX design, and software development lifecycles.</p>
+                    </div>
+                </div>
+                <div class="tl-item tl-right reveal" id="cert-html">
+                    <div class="tl-dot"><i class="fas fa-certificate"></i></div>
+                    <div class="tl-card">
+                        <span class="tl-tag tl-tag-cert">Certification</span>
+                        <h3>IT Specialist Certification (HTML &amp; CSS)</h3>
+                        <p class="tl-sub">Certified Professional</p>
+                        <p class="tl-desc">Demonstrated proficiency in front-end web development, specifically in building, structuring, and styling responsive web elements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-contact">
+        <div class="container">
+            <div class="section-label reveal">
+                <span class="label-line"></span>
+                <span class="label-text">04 / Get In Touch</span>
+            </div>
+            <h2 class="contact-heading reveal">
+                Let's work <span class="text-highlight">together</span>.
+            </h2>
+            <div class="contact-grid">
+                <div class="contact-left reveal">
+                    <p class="contact-intro">I am always looking forward to applying my IT and media skills to new challenges. Send me a message and let's build something great.</p>
+                    <div class="socials">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn" id="social-facebook" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn" id="social-instagram" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-btn" id="social-linkedin" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn" id="social-github" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <form id="contact-form" class="contact-form reveal" autocomplete="off">
+                    <div class="input-group">
+                        <input type="text" id="form-name" name="name" placeholder=" " required>
+                        <label for="form-name">Your Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="form-email" name="email" placeholder=" " required>
+                        <label for="form-email">Your Email</label>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="form-message" name="message" rows="5" placeholder=" " required></textarea>
+                        <label for="form-message">Your Message</label>
+                    </div>
+                    <button type="submit" class="btn btn-fill btn-submit" id="submit-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <span class="footer-logo">N<span class="logo-accent">K</span></span>
+                <p>&copy; 2026 Navin Kumar. Built for BSITWMA.</p>
+            </div>
+            <div class="footer-right">
+                <a href="#home">Back to Top ↑</a>
+            </div>
+        </div>
+    </footer>
+    </div>
+    </div>
+
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <svg class="btt-progress" viewBox="0 0 46 46">
+            <circle class="btt-track" cx="23" cy="23" r="20"></circle>
+            <circle class="btt-fill" cx="23" cy="23" r="20" id="btt-circle"></circle>
+        </svg>
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
