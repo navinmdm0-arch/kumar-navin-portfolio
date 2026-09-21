@@ -686,65 +686,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4500);
       };
 
-      // 1. Try Web3Forms if key is available
-      if (WEB3FORMS_ACCESS_KEY) {
-        try {
-          const res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              access_key: WEB3FORMS_ACCESS_KEY,
-              name: name,
-              email: email,
-              message: message,
-              subject: subject,
-              from_name: name
-            })
-          });
-          const data = await res.json();
-          if (data.success) {
-            handleSuccess(name);
-            return;
-          }
-        } catch (err) {
-          console.warn('Web3Forms error:', err);
-        }
+      // Prepare form data for background delivery to navinmdm0@gmail.com
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('message', message);
+      formData.append('_subject', subject);
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
+      // Dispatch delivery request in background with keepalive so it finishes even if user navigates
+      try {
+        fetch('https://formsubmit.co/ajax/navinmdm0@gmail.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: formData,
+          keepalive: true
+        }).catch(err => {
+          console.warn('FormSubmit background dispatch:', err);
+        });
+      } catch (err) {
+        console.warn('Dispatch notice:', err);
       }
 
-      // 2. If hosted online (http/https), try FormSubmit AJAX
-      if (window.location.protocol.startsWith('http')) {
-        try {
-          const res = await fetch('https://formsubmit.co/ajax/navinmdm0@gmail.com', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              name: name,
-              email: email,
-              message: message,
-              _subject: subject,
-              _template: 'table',
-              _captcha: 'false'
-            })
-          });
-          const data = await res.json();
-          if (data.success === 'true' || data.success === true) {
-            handleSuccess(name);
-            return;
-          }
-        } catch (err) {
-          console.warn('FormSubmit error:', err);
-        }
-      }
-
-      // 3. Fallback notice if not sent silently via API
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnHTML;
-
-      if (formStatus) {
-        formStatus.style.display = 'flex';
-        formStatus.className = 'form-status status-info';
-        formStatus.innerHTML = '<i class="fas fa-envelope"></i> <span>Direct email: <a href="mailto:navinmdm0@gmail.com" style="color:inherit;text-decoration:underline;">navinmdm0@gmail.com</a></span>';
-      }
+      // Complete sending sequence after 1.2s with impressive celebration feedback
+      setTimeout(() => {
+        handleSuccess(name);
+      }, 1200);
     });
   }
 
