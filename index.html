@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3.5">
     <script>
         const savedMode = localStorage.getItem('portfolio-mode');
         const savedTheme = localStorage.getItem('portfolio-theme');
@@ -27,6 +27,49 @@
             document.documentElement.classList.add('light-mode');
             document.addEventListener('DOMContentLoaded', () => document.body.classList.add('light-mode'));
         }
+
+        window.togglePortfolioMode = function() {
+            const isPro = !document.body.classList.contains('pro-mode');
+            const creativeOpt = document.querySelector('.mode-opt.mode-creative');
+            const proOpt = document.querySelector('.mode-opt.mode-pro');
+            const typedText = document.getElementById('typed-text');
+            const sc = document.getElementById('smooth-content');
+            
+            document.body.classList.add('theme-transitioning');
+            if (isPro) {
+                document.body.classList.add('pro-mode');
+                document.documentElement.classList.add('pro-mode');
+                document.body.classList.add('light-mode');
+                document.documentElement.classList.add('light-mode');
+                localStorage.setItem('portfolio-mode', 'pro');
+                localStorage.setItem('portfolio-theme', 'light');
+                if (creativeOpt) creativeOpt.classList.remove('active');
+                if (proOpt) proOpt.classList.add('active');
+                if (typedText) typedText.textContent = 'Web Developer & IT Specialist';
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(c => { const t = c.getAttribute('data-target'); if (t) c.innerText = t; });
+                if (sc) sc.style.transform = 'none';
+                document.body.style.height = 'auto';
+            } else {
+                document.body.classList.remove('pro-mode');
+                document.documentElement.classList.remove('pro-mode');
+                localStorage.setItem('portfolio-mode', 'creative');
+                if (creativeOpt) creativeOpt.classList.add('active');
+                if (proOpt) proOpt.classList.remove('active');
+                if (sc && window.innerWidth > 1024) {
+                    document.body.style.height = sc.getBoundingClientRect().height + 'px';
+                }
+            }
+            setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
+        };
+
+        window.togglePortfolioTheme = function() {
+            document.body.classList.add('theme-transitioning');
+            const isLight = document.body.classList.toggle('light-mode');
+            document.documentElement.classList.toggle('light-mode', isLight);
+            localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+            setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
+        };
     </script>
 </head>
 <body>
@@ -69,14 +112,14 @@
             </ul>
             <div class="nav-right">
                 <div class="mode-switch-wrap">
-                    <button type="button" class="mode-switch-btn" id="mode-switch-btn" aria-label="Toggle Portfolio Mode" title="Switch between Creative and Professional Mode">
+                    <button type="button" class="mode-switch-btn" id="mode-switch-btn" onclick="window.togglePortfolioMode()" aria-label="Toggle Portfolio Mode" title="Switch between Creative and Professional Mode">
                         <span class="mode-pill"></span>
                         <span class="mode-opt mode-creative active">
-                            <i class="fas fa-wand-magic-sparkles"></i>
+                            <svg class="mode-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 7.6L20 10L14.4 12.4L12 18L9.6 12.4L4 10L9.6 7.6L12 2Z"/></svg>
                             <span class="mode-txt">Creative</span>
                         </span>
                         <span class="mode-opt mode-pro">
-                            <i class="fas fa-briefcase"></i>
+                            <svg class="mode-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
                             <span class="mode-txt">Pro</span>
                         </span>
                     </button>
@@ -85,7 +128,7 @@
                     <span class="status-dot"></span>
                     <span>Available</span>
                 </div>
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+                <button class="theme-toggle" id="theme-toggle" onclick="window.togglePortfolioTheme()" aria-label="Toggle light/dark mode" title="Toggle theme">
                     <div class="toggle-track">
                         <div class="toggle-stars">
                             <span class="star star-1"></span>
@@ -543,6 +586,6 @@
 
     <div id="toast-container"></div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3.5"></script>
 </body>
 </html>

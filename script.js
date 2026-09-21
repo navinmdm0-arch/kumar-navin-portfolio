@@ -11,6 +11,27 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   
+  // Initialize mode switch & theme toggle immediately
+  const modeSwitchBtn = document.getElementById('mode-switch-btn');
+  if (modeSwitchBtn) {
+    modeSwitchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof window.togglePortfolioMode === 'function') {
+        window.togglePortfolioMode();
+      }
+    });
+  }
+
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof window.togglePortfolioTheme === 'function') {
+        window.togglePortfolioTheme();
+      }
+    });
+  }
+
   const smoothWrapper = document.getElementById('smooth-wrapper');
   const smoothContent = document.getElementById('smooth-content');
   if (smoothWrapper && smoothContent && window.innerWidth > 1024) {

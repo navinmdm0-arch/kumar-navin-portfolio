@@ -471,8 +471,13 @@ section {
   white-space: nowrap;
   width: 100%;
 }
-.mode-opt i {
+.mode-opt i,
+.mode-svg-icon {
   font-size: 0.72rem;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  display: inline-block;
 }
 .mode-opt.active {
   color: #ffffff !important;
