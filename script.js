@@ -15,46 +15,6 @@ setTimeout(dismissPreloader, 2000);
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const smoothWrapper = document.getElementById('smooth-wrapper');
-  const smoothContent = document.getElementById('smooth-content');
-  if (smoothWrapper && smoothContent && window.innerWidth > 1024) {
-    let currentScroll = 0;
-    let targetScroll = 0;
-    let ease = 0.08;
-    
-    function updateScrollHeight() {
-      if (document.body.classList.contains('pro-mode')) {
-        document.body.style.height = 'auto';
-        return;
-      }
-      if (window.innerWidth > 1024) {
-        document.body.style.height = `${smoothContent.getBoundingClientRect().height}px`;
-      } else {
-        document.body.style.height = 'auto';
-      }
-    }
-    
-    updateScrollHeight();
-    window.addEventListener('resize', updateScrollHeight);
-    const resizeObserver = new ResizeObserver(updateScrollHeight);
-    resizeObserver.observe(smoothContent);
-    
-    function physicsScroll() {
-      if (document.body.classList.contains('pro-mode')) {
-        smoothContent.style.transform = 'none';
-        currentScroll = targetScroll = window.scrollY;
-        requestAnimationFrame(physicsScroll);
-        return;
-      }
-      targetScroll = window.scrollY;
-      currentScroll += (targetScroll - currentScroll) * ease;
-      if (Math.abs(targetScroll - currentScroll) < 0.1) currentScroll = targetScroll;
-      
-      smoothContent.style.transform = `translate3d(0, ${-currentScroll}px, 0)`;
-      requestAnimationFrame(physicsScroll);
-    }
-    physicsScroll();
-  }
 
   const canvas = document.getElementById('bg-canvas');
   if (canvas) {
@@ -345,8 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
           e.preventDefault();
+          const nav = document.getElementById('navbar');
+          const navHeight = nav ? nav.offsetHeight : 70;
+          const targetTop = targetSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
           window.scrollTo({
-            top: targetSection.offsetTop - 70,
+            top: targetTop,
             behavior: 'smooth'
           });
         }
@@ -799,82 +762,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ============================================================
-  // Style Mode Switch (Creative vs Professional)
+  // Initialize Mode and Theme from Storage
   // ============================================================
-  const modeSwitchBtn = document.getElementById('mode-switch-btn');
-  const creativeOpt = document.querySelector('.mode-opt.mode-creative');
-  const proOpt = document.querySelector('.mode-opt.mode-pro');
-
-  const updateModeUI = (isPro) => {
-    if (isPro) {
-      document.body.classList.add('pro-mode');
-      if (creativeOpt) creativeOpt.classList.remove('active');
-      if (proOpt) proOpt.classList.add('active');
-      if (typedText) typedText.textContent = 'Web Developer & IT Specialist';
-      const allCounters = document.querySelectorAll('.counter');
-      allCounters.forEach(c => {
-        const t = c.getAttribute('data-target');
-        if (t) c.innerText = t;
-      });
-      const sc = document.getElementById('smooth-content');
-      if (sc) sc.style.transform = 'none';
-      document.body.style.height = 'auto';
-    } else {
-      document.body.classList.remove('pro-mode');
-      if (creativeOpt) creativeOpt.classList.add('active');
-      if (proOpt) proOpt.classList.remove('active');
-      const sc = document.getElementById('smooth-content');
-      if (sc && window.innerWidth > 1024) {
-        document.body.style.height = `${sc.getBoundingClientRect().height}px`;
-      }
-    }
-  };
-
   const savedMode = localStorage.getItem('portfolio-mode');
-  if (savedMode === 'pro') {
-    updateModeUI(true);
+  if (savedMode === 'pro' && typeof window.setPortfolioMode === 'function') {
+    window.setPortfolioMode('pro');
   }
-
-  if (modeSwitchBtn) {
-    modeSwitchBtn.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      const willBePro = !document.body.classList.contains('pro-mode');
-      
-      if (willBePro) {
-        document.body.classList.add('light-mode');
-        localStorage.setItem('portfolio-theme', 'light');
-      }
-      
-      updateModeUI(willBePro);
-      localStorage.setItem('portfolio-mode', willBePro ? 'pro' : 'creative');
-
-      setTimeout(() => {
-        document.body.classList.remove('theme-transitioning');
-      }, 400);
-    });
-  }
-
-  const themeToggle = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('portfolio-theme');
-  
   if (savedTheme === 'light') {
     document.body.classList.add('light-mode');
-  }
-  
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      document.body.classList.toggle('light-mode');
-      
-      if (document.body.classList.contains('light-mode')) {
-        localStorage.setItem('portfolio-theme', 'light');
-      } else {
-        localStorage.setItem('portfolio-theme', 'dark');
-      }
-      
-      setTimeout(() => {
-        document.body.classList.remove('theme-transitioning');
-      }, 700);
-    });
+    document.documentElement.classList.add('light-mode');
   }
 });
