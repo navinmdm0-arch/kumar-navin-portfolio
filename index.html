@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=4.1">
+    <link rel="stylesheet" href="style.css?v=4.2">
     <script>
         const savedMode = localStorage.getItem('portfolio-mode');
         const savedTheme = localStorage.getItem('portfolio-theme');
@@ -554,6 +554,7 @@
                     </div>
                 </div>
                 <form id="contact-form" class="contact-form reveal" autocomplete="off">
+                    <input type="hidden" name="access_key" id="web3forms-key" value="">
                     <div class="form-status" id="form-status" style="display: none;"></div>
 
                     <div class="input-group">
@@ -605,8 +606,6 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <div id="toast-container"></div>
-
-    <script src="script.js?v=4.1"></script>
+    <script src="script.js?v=4.2"></script>
 </body>
 </html>

@@ -447,128 +447,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyEmailBtn = document.getElementById('copy-email-btn');
 
   // ============================================================
-  // Contact Form Engine
-  // - Supports Web3Forms for silent background delivery (local & live)
-  // - Supports FormSubmit for live hosted sites (GitHub Pages, etc.)
-  // - Provides immediate delivery fallback so messages are never lost
+  // Contact Form Engine (Web3Forms Direct Delivery)
   // ============================================================
-  let WEB3FORMS_ACCESS_KEY = localStorage.getItem('web3forms_key') || '';
-
-  // ============================================================
-  // Confetti Particle Celebration Effect
-  // ============================================================
-  const triggerConfetti = (originX, originY) => {
-    let container = document.getElementById('confetti-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.id = 'confetti-container';
-      container.className = 'confetti-canvas-container';
-      document.body.appendChild(container);
-    }
-
-    const colors = ['#00ffff', '#c084fc', '#10b981', '#fbbf24', '#38bdf8', '#ffffff', '#f43f5e'];
-    const count = 60;
-
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'confetti-particle';
-      container.appendChild(p);
-
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const size = Math.random() * 8 + 6;
-      const isCircle = Math.random() > 0.45;
-
-      p.style.backgroundColor = color;
-      p.style.width = `${size}px`;
-      p.style.height = isCircle ? `${size}px` : `${size * 1.5}px`;
-      p.style.borderRadius = isCircle ? '50%' : '2px';
-      p.style.boxShadow = `0 0 12px ${color}`;
-
-      const angle = (Math.random() * 360) * (Math.PI / 180);
-      const velocity = Math.random() * 280 + 130;
-      let vx = Math.cos(angle) * velocity;
-      let vy = Math.sin(angle) * velocity - 130; // upward bias
-
-      let posX = originX;
-      let posY = originY;
-      let rotation = Math.random() * 360;
-      let rotSpeed = (Math.random() - 0.5) * 28;
-      let wobble = Math.random() * 10;
-      const wobbleSpeed = Math.random() * 0.12 + 0.05;
-
-      const startTime = performance.now();
-      const duration = 1400 + Math.random() * 500;
-
-      const step = (now) => {
-        const elapsed = now - startTime;
-        const progress = elapsed / duration;
-
-        if (progress >= 1) {
-          p.remove();
-          return;
-        }
-
-        wobble += wobbleSpeed;
-        posX += vx * 0.016 + Math.sin(wobble) * 1.2;
-        posY += vy * 0.016;
-        vy += 380 * 0.016; // gravity
-        vx *= 0.98; // air drag
-        rotation += rotSpeed;
-        const opacity = 1 - Math.pow(progress, 2.5);
-
-        p.style.transform = `translate3d(${posX}px, ${posY}px, 0) rotate(${rotation}deg)`;
-        p.style.opacity = opacity;
-
-        requestAnimationFrame(step);
-      };
-
-      requestAnimationFrame(step);
-    }
-  };
-
-  const showToast = (title, message = '', isError = false) => {
-    let container = document.getElementById('toast-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.id = 'toast-container';
-      document.body.appendChild(container);
-    }
-    
-    const toast = document.createElement('div');
-    toast.className = `custom-toast ${isError ? 'toast-error' : 'toast-success'}`;
-    toast.innerHTML = `
-      <div class="toast-icon">
-        <i class="fas ${isError ? 'fa-circle-exclamation' : 'fa-check'}"></i>
-      </div>
-      <div class="toast-body">
-        <div class="toast-header-row">
-          <span class="toast-tag">${isError ? 'NOTICE' : 'DELIVERED'}</span>
-          <span class="toast-time">Just now</span>
-        </div>
-        <div class="toast-title">${title}</div>
-        ${message ? `<div class="toast-desc">${message}</div>` : ''}
-      </div>
-      <div class="toast-progress"></div>
-    `;
-    container.appendChild(toast);
-    
-    setTimeout(() => { toast.classList.add('show'); }, 40);
-    setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => { toast.remove(); }, 400);
-    }, 4500);
-  };
-
   if (copyEmailBtn) {
     copyEmailBtn.addEventListener('click', () => {
       navigator.clipboard.writeText('navinmdm0@gmail.com').then(() => {
-        showToast('Email Copied!', 'navinmdm0@gmail.com copied to clipboard', false);
         copyEmailBtn.innerHTML = '<i class="fas fa-check"></i>';
         setTimeout(() => {
           copyEmailBtn.innerHTML = '<i class="far fa-copy"></i>';
         }, 2000);
       }).catch(() => {
-        showToast('Direct Email', 'navinmdm0@gmail.com', false);
+        // Clipboard fallback
       });
     });
   }
@@ -585,9 +474,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = emailInput ? emailInput.value.trim() : '';
       const message = messageInput ? messageInput.value.trim() : '';
       
-      // Validation
+      // Inline Validation
       if (!name || !email || !message) {
-        showToast('Missing Fields', 'Please fill in your name, email, and message.', true);
         if (formStatus) {
           formStatus.style.display = 'flex';
           formStatus.className = 'form-status status-error';
@@ -598,17 +486,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        showToast('Invalid Email', 'Please enter a valid email address.', true);
         if (formStatus) {
           formStatus.style.display = 'flex';
           formStatus.className = 'form-status status-error';
-          formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid email address.';
+          formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter a valid email address.';
         }
         if (emailInput) emailInput.focus();
         return;
       }
 
-      // Set loading state with flight animation
+      // Set clean loading state
       const originalBtnHTML = submitBtn.innerHTML;
       submitBtn.classList.add('is-sending');
       submitBtn.disabled = true;
@@ -624,95 +511,153 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const subject = `Portfolio Contact from ${name}`;
 
-      // Helper for pleasurable, impressive celebration display
+      // Clean, professional success display (no confetti, no side toast)
       const handleSuccess = (senderName) => {
-        // Confetti explosion from the submit button center!
-        const btnRect = submitBtn.getBoundingClientRect();
-        triggerConfetti(btnRect.left + btnRect.width / 2, btnRect.top + btnRect.height / 2);
-
-        // Haptic feedback if supported (mobile / tablet)
-        if (navigator.vibrate) {
-          try { navigator.vibrate([30, 60, 40]); } catch (err) {}
-        }
-
-        // Transform button into emerald celebration state
         submitBtn.classList.remove('is-sending');
         submitBtn.classList.add('is-success');
         submitBtn.innerHTML = '<span>Message Delivered!</span><i class="fas fa-check"></i>';
 
-        // Show sleek top floating glass toast
-        const displayName = senderName ? senderName : 'Thank you';
-        showToast('Message Delivered!', `${displayName}, your message is safely in Navin's inbox.`, false);
-
-        // Update form status with sleek animated confirmation
         if (formStatus) {
           formStatus.style.display = 'flex';
           formStatus.className = 'form-status status-success';
           formStatus.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 14px; width: 100%;">
-              <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.5); display: flex; align-items: center; justify-content: center; color: #34d399; font-size: 1.05rem; flex-shrink: 0; box-shadow: 0 0 16px rgba(16,185,129,0.4);">
+            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+              <div style="width: 34px; height: 34px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1rem; flex-shrink: 0;">
                 <i class="fas fa-check"></i>
               </div>
               <div style="display: flex; flex-direction: column; gap: 2px;">
-                <div style="font-weight: 700; color: #ffffff; font-size: 0.94rem; letter-spacing: 0.2px;">Message Received!</div>
-                <div style="color: #cbd5e1; font-size: 0.82rem;">Thank you! Your message was delivered directly to <strong>navinmdm0@gmail.com</strong>.</div>
+                <div style="font-weight: 700; color: #ffffff; font-size: 0.92rem;">Message Delivered!</div>
+                <div style="color: #cbd5e1; font-size: 0.82rem;">Thank you! Your message was sent directly to <strong>navinmdm0@gmail.com</strong>.</div>
               </div>
             </div>
           `;
           
-          // Smoothly auto-fade after 6 seconds
           setTimeout(() => {
             if (formStatus && formStatus.classList.contains('status-success')) {
-              formStatus.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+              formStatus.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
               formStatus.style.opacity = '0';
-              formStatus.style.transform = 'translateY(-6px)';
+              formStatus.style.transform = 'translateY(-4px)';
               setTimeout(() => {
                 formStatus.style.display = 'none';
                 formStatus.style.opacity = '';
                 formStatus.style.transform = '';
                 formStatus.style.transition = '';
-              }, 600);
+              }, 500);
             }
           }, 6000);
         }
 
         contactForm.reset();
 
-        // Restore button back gracefully after 4.5 seconds
         setTimeout(() => {
           submitBtn.classList.remove('is-success');
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnHTML;
-        }, 4500);
+        }, 4000);
       };
 
-      // Prepare form data for background delivery to navinmdm0@gmail.com
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('message', message);
-      formData.append('_subject', subject);
-      formData.append('_captcha', 'false');
-      formData.append('_template', 'table');
+      // 1. Check for Web3Forms Access Key
+      const web3KeyInput = document.getElementById('web3forms-key');
+      let web3Key = (web3KeyInput && web3KeyInput.value.trim()) || localStorage.getItem('web3forms_key') || '';
 
-      // Dispatch delivery request in background with keepalive so it finishes even if user navigates
-      try {
-        fetch('https://formsubmit.co/ajax/navinmdm0@gmail.com', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: formData,
-          keepalive: true
-        }).catch(err => {
-          console.warn('FormSubmit background dispatch:', err);
-        });
-      } catch (err) {
-        console.warn('Dispatch notice:', err);
+      if (web3Key) {
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              access_key: web3Key,
+              name: name,
+              email: email,
+              message: message,
+              subject: subject,
+              from_name: name
+            })
+          });
+          const data = await res.json();
+          if (data.success) {
+            handleSuccess(name);
+            return;
+          } else {
+            console.warn('Web3Forms response:', data);
+          }
+        } catch (err) {
+          console.warn('Web3Forms error:', err);
+        }
       }
 
-      // Complete sending sequence after 1.2s with impressive celebration feedback
-      setTimeout(() => {
-        handleSuccess(name);
-      }, 1200);
+      // If no key yet or key failed, prompt once for Web3Forms Access Key
+      if (!web3Key) {
+        const userKey = prompt('Please enter your Web3Forms Access Key for navinmdm0@gmail.com:');
+        if (userKey && userKey.trim()) {
+          web3Key = userKey.trim();
+          localStorage.setItem('web3forms_key', web3Key);
+          if (web3KeyInput) web3KeyInput.value = web3Key;
+          
+          try {
+            const res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                access_key: web3Key,
+                name: name,
+                email: email,
+                message: message,
+                subject: subject,
+                from_name: name
+              })
+            });
+            const data = await res.json();
+            if (data.success) {
+              handleSuccess(name);
+              return;
+            }
+          } catch (err) {
+            console.warn('Web3Forms retry error:', err);
+          }
+        }
+      }
+
+      // Fallback: If Web3Forms not configured or offline, try FormSubmit AJAX
+      try {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('message', message);
+        formData.append('_subject', subject);
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table');
+
+        const fsRes = await fetch('https://formsubmit.co/ajax/navinmdm0@gmail.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: formData
+        });
+        const fsData = await fsRes.json();
+        if (fsData.success === 'true' || fsData.success === true) {
+          handleSuccess(name);
+          return;
+        }
+      } catch (err) {
+        console.warn('FormSubmit fallback notice:', err);
+      }
+
+      // Direct mailto fallback if network blocks API dispatch
+      submitBtn.classList.remove('is-sending');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHTML;
+      
+      if (formStatus) {
+        formStatus.style.display = 'flex';
+        formStatus.className = 'form-status status-info';
+        formStatus.innerHTML = `<i class="fas fa-envelope"></i> <span>Direct email: <a href="mailto:navinmdm0@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}" style="color:inherit;text-decoration:underline;">navinmdm0@gmail.com</a></span>`;
+      }
     });
   }
 
