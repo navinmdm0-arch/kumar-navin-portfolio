@@ -1,36 +1,19 @@
+function dismissPreloader() {
+  const preloader = document.getElementById('preloader');
+  if (preloader && !preloader.classList.contains('done')) {
+    preloader.classList.add('done');
+    document.body.classList.add('loaded');
+  }
+}
+
 window.addEventListener('load', () => {
   const isPro = document.body.classList.contains('pro-mode') || document.documentElement.classList.contains('pro-mode');
-  setTimeout(() => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-      preloader.classList.add('done');
-      document.body.classList.add('loaded');
-    }
-  }, isPro ? 0 : 1500);
+  setTimeout(dismissPreloader, isPro ? 0 : 1200);
 });
+// Fallback timeout so preloader NEVER gets stuck
+setTimeout(dismissPreloader, 2000);
 
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // Initialize mode switch & theme toggle immediately
-  const modeSwitchBtn = document.getElementById('mode-switch-btn');
-  if (modeSwitchBtn) {
-    modeSwitchBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (typeof window.togglePortfolioMode === 'function') {
-        window.togglePortfolioMode();
-      }
-    });
-  }
-
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (typeof window.togglePortfolioTheme === 'function') {
-        window.togglePortfolioTheme();
-      }
-    });
-  }
 
   const smoothWrapper = document.getElementById('smooth-wrapper');
   const smoothContent = document.getElementById('smooth-content');

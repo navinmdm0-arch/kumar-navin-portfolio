@@ -148,11 +148,22 @@ img { max-width: 100%; display: block; }
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  animation: autoHidePreloader 0.5s ease 2.2s forwards;
+}
+@keyframes autoHidePreloader {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    display: none;
+  }
 }
 #preloader.done {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
 }
 .preloader-inner { text-align: center; }
 .preloader-logo {
